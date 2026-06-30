@@ -24,3 +24,13 @@ $categories = [
         "products" => []
     ]
 ];
+
+$categoriesWithEmptyProducts = [];
+
+for ($i=0; $i < count($categories); $i++) { 
+    if (empty($categories[$i]["products"])) {
+        $categoriesWithEmptyProducts[] = $categories[$i];
+    }
+}
+
+var_dump($categoriesWithEmptyProducts);
