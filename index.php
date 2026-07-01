@@ -124,5 +124,49 @@ function storeCategoryWithEmptyProducts(array &$categories): void
     var_dump($categories);
 }
 
+function storeProductInExistingCategory(array &$categories): void {
+    $indexCategorie = null;
+    
+    do {
+        $code = readRequiredString("Entrez le code: ");
+        
+        for ($i = 0; $i < count($categories); $i++) {
+            if ($categories[$i]["code"] === strtolower($code)) {
+                $indexCategorie = $i;
+                break;
+            }
+        }
+
+        if ($indexCategorie !== null) {
+            break;
+        }
+
+        echo "Cette categorie n'existe pas \n";
+    } while (true);
+
+    do {
+        $ref = readRequiredString("Entre la ref: ");
+        if (checkRefExistsGlobal($categories, $ref)) {
+            echo "Cette ref existe deja \n";
+            continue;
+        }
+        break;
+    } while (true);
+
+    $name = readRequiredString("Entre la name: ");
+    $price = readPositiveInteger("Entre la price: ");
+    $quantity = readPositiveInteger("Entre la quantity: ");
+
+    $categories[$indexCategorie]["products"][] = [
+        "ref" => strtolower($ref),
+        "name" => $name,
+        "quantity" => $quantity,
+        "price" => $price
+    ];
+
+    var_dump($categories);
+}
+
 // showCategoriesWithEmptyProducts($categories);
-storeCategoryWithEmptyProducts($categories);
+// storeCategoryWithEmptyProducts($categories);
+storeProductInExistingCategory($categories);
