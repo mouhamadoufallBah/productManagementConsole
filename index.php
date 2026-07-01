@@ -167,6 +167,72 @@ function storeProductInExistingCategory(array &$categories): void {
     var_dump($categories);
 }
 
+function storeCategoryWithProducts(array &$categories): void
+{
+
+    do {
+        $code = readRequiredString("Entrez le code category: ");
+        if (checkCodeExists($categories, $code)) {
+            echo "Cette categorie existe deja";
+            continue;
+        }
+        break;
+    } while (true);
+
+    do {
+        $name = readRequiredString("Entrez le name category: ");
+        if (checkNameExists($categories, $name)) {
+            echo "Cette categorie existe deja";
+            continue;
+        }
+        break;
+    } while (true);
+
+    $products = [];
+
+    do {
+        do {
+            $ref = readRequiredString("Entre la ref produit: ");
+
+            if (checkRefExistsGlobal($categories, $ref)) {
+                echo "Cette ref existe deja \n";
+                continue;
+            }
+            if (checkRefExistsSession($products, $ref)) {
+                echo "Cette ref existe deja dans cette session \n";
+                continue;
+            }
+            break;
+        } while (true);
+
+        $nameProduct = readRequiredString("Entre la name produit: ");
+        $price = readPositiveInteger("Entre la price: ");
+        $quantity = readPositiveInteger("Entre la quantity: ");
+
+        $products[] = [
+            "ref" => $ref,
+            "name" => $nameProduct,
+            "price" => $price,
+            "quantity" => $quantity
+        ];
+
+        $choix = strtolower(readline(" voulez vous continuer  oui/non "));
+    } while ($choix === "oui");
+
+    $categorie = [
+        "code" => $code,
+        "name" => $name,
+        "products" => $products
+    ];
+
+    $categories[] = $categorie;
+
+    var_dump($categorie);
+}
+
+
 // showCategoriesWithEmptyProducts($categories);
 // storeCategoryWithEmptyProducts($categories);
-storeProductInExistingCategory($categories);
+// storeProductInExistingCategory($categories);
+//try to merge in procedural after revert
+storeCategoryWithProducts($categories);
