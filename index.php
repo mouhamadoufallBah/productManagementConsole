@@ -1,22 +1,11 @@
 <?php
-//1- initialiser le tableau categories
 $categories = [
     [
         "code" => "c001",
         "name" => "cat-1",
         "products" => [
-            [
-                "ref" => "rprod-1",
-                "name" => "prod-1",
-                "quantity" => 100,
-                "price" => 500
-            ],
-            [
-                "ref" => "rprod-2",
-                "name" => "prod-2",
-                "quantity" => 100,
-                "price" => 500
-            ],
+            ["ref" => "rprod-1", "name" => "prod-1", "quantity" => 100, "price" => 500],
+            ["ref" => "rprod-2", "name" => "prod-2", "quantity" => 100, "price" => 500],
         ]
     ],
     [
@@ -26,248 +15,62 @@ $categories = [
     ]
 ];
 
-//2-afficher les categories qui n'ont pas de produits
-$categoriesWithEmptyProducts = [];
-for ($i = 0; $i < count($categories); $i++) {
-    if (empty($categories[$i]["products"])) {
-        $categoriesWithEmptyProducts[] = $categories[$i];
-    }
+function readRequiredString(string $smsSaisie): string {
+    do {
+        $value = trim(readline($smsSaisie));
+        if (strlen($value) === 0) {
+            echo "Ce champs est obligatoire\n";
+            continue;
+        }
+        return $value;
+    } while (true);
 }
 
-// var_dump($categoriesWithEmptyProducts);
-//3-ajouter categorie
-// do {
-//     $code = trim(readline("Entrez le code: "));
-//     if (strlen($code) === 0) {
-//         echo "Ce champs est obligatoire";
-//         continue;
-//     }
+function readPositiveInteger(string $smsSaisie): int {
+    do {
+        $value = readline($smsSaisie);
+        if (!ctype_digit($value)) {
+            echo "Ce champs ne doit pas etre inferieur 0 \n";
+            continue;
+        }
+        return (int)$value;
+    } while (true);
+}
 
-//     for ($i = 0; $i < count($categories); $i++) {
-//         if ($categories[$i]["code"] === strtolower($code)) {
-//             echo "Cette categorie existe deja";
-//             continue 2;
-//         }
-//     }
-
-//     break;
-// } while (true);
-
-// do {
-//     $name = trim(readline("Entrez le name: "));
-//     if (strlen($name) === 0) {
-//         echo "Ce champs est obligatoire";
-//         continue;
-//     }
-
-//     for ($i = 0; $i < count($categories); $i++) {
-//         if ($categories[$i]["name"] === strtolower($name)) {
-//             echo "Cette categorie existe deja";
-//             continue 2;
-//         }
-//     }
-
-//     break;
-// } while (true);
-
-// array_push(
-//     $categories,
-//     [
-//         "code" => $code,
-//         "name" => $name,
-//         "products" => []
-//     ]
-// );
-
-// var_dump($categories);
-
-//4- ajouter produit
-// $categorie = [];
-// $indexCategorie = null;
-// do {
-//     $code = trim(readline("Entrez le code: "));
-//     foreach ($categories as $key => $cat) {
-//         if ($cat["code"] === strtolower($code)) {
-//             $categorie = $cat;
-//             $indexCategorie = $key;
-//             break;
-//         }
-//     }
-
-//     if (!empty($categorie)) {
-//         break;
-//     }
-
-//     echo "Cette categorie n'existe pas \n";
-// } while (true);
-
-// do {
-//     $ref = trim(readline("Entre la ref: "));
-//     if (strlen($ref) === 0) {
-//         echo "Ce champs est obligatoire \n";
-//         continue;
-//     }
-
-//     foreach ($categories as $cat) {
-//         foreach ($cat["products"] as $prod) {
-//             if ($prod["ref"] === strtolower($ref)) {
-//                 echo "Cette ref existe deja \n";
-//                 continue 3;
-//             }
-//         }
-//     }
-
-//     break;
-// } while (true);
-
-// do {
-//     $name = trim(readline("Entre la name: "));
-//     if (strlen($name) === 0) {
-//         echo "Ce champs est obligatoire \n";
-//         continue;
-//     }
-
-//     break;
-// } while (true);
-
-// do {
-//     $price = readline("Entre la price: ");
-//     if (!ctype_digit($price)) {
-//         echo "Ce champs ne doit pas etre inferieur 0 \n";
-//         continue;
-//     }
-
-//     break;
-// } while (true);
-
-// do {
-//     $quantity = readline("Entre la quantity: ");
-//     if (!ctype_digit($quantity)) {
-//         echo "Ce champs ne doit pas etre inferieur 0 \n";
-//         continue;
-//     }
-
-//     break;
-// } while (true);
-
-
-// array_push(
-//     $categories[$indexCategorie]["products"],
-//     [
-//         "ref" => $ref,
-//         "name" => $name,
-//         "quantity" => $quantity,
-//         "price" => $price
-//     ],
-// );
-
-// var_dump($categories);
-//5- Ahouter categorie avec ses produits
-
-do {
-    $code = trim(readline("Entrez le code category: "));
-    if (strlen($code) === 0) {
-        echo "Ce champs est obligatoire";
-        continue;
-    }
-
+function checkCodeExists(array $categories, string $code): bool {
     for ($i = 0; $i < count($categories); $i++) {
         if ($categories[$i]["code"] === strtolower($code)) {
-            echo "Cette categorie existe deja";
-            continue 2;
+            return true;
         }
     }
+    return false;
+}
 
-    break;
-} while (true);
-
-do {
-    $name = trim(readline("Entrez le name category: "));
-    if (strlen($name) === 0) {
-        echo "Ce champs est obligatoire";
-        continue;
-    }
-
+function checkNameExists(array $categories, string $name): bool {
     for ($i = 0; $i < count($categories); $i++) {
         if ($categories[$i]["name"] === strtolower($name)) {
-            echo "Cette categorie existe deja";
-            continue 2;
+            return true;
         }
     }
+    return false;
+}
 
-    break;
-} while (true);
-
-
-$products = [];
-do {
-
-    do {
-        $ref = trim(readline("Entre la ref produit: "));
-        if (strlen($ref) === 0) {
-            echo "Ce champs est obligatoire \n";
-            continue;
-        }
-
-        foreach ($categories as $cat) {
-            foreach ($cat["products"] as $prod) {
-                if ($prod["ref"] === strtolower($ref)) {
-                    echo "Cette ref existe deja \n";
-                    continue 3;
-                }
+function checkRefExistsGlobal(array $categories, string $ref): bool {
+    foreach ($categories as $cat) {
+        foreach ($cat["products"] as $prod) {
+            if ($prod["ref"] === strtolower($ref)) {
+                return true;
             }
         }
+    }
+    return false;
+}
 
-        break;
-    } while (true);
-
-    do {
-        $name = trim(readline("Entre la name produit: "));
-        if (strlen($name) === 0) {
-            echo "Ce champs est obligatoire \n";
-            continue;
+function checkRefExistsSession(array $products, string $ref): bool {
+    foreach ($products as $prod) {
+        if ($prod["ref"] === strtolower($ref)) {
+            return true;
         }
-
-        break;
-    } while (true);
-
-    do {
-        $price = readline("Entre la price: ");
-        if (!ctype_digit($price)) {
-            echo "Ce champs ne doit pas etre inferieur 0 \n";
-            continue;
-        }
-
-        break;
-    } while (true);
-
-    do {
-        $quantity = readline("Entre la quantity: ");
-        if (!ctype_digit($quantity)) {
-            echo "Ce champs ne doit pas etre inferieur 0 \n";
-            continue;
-        }
-
-        break;
-    } while (true);
-
-    $product =   [
-        "ref" => $ref,
-        "name" => $name,
-        "price" => $price,
-        "quantity" => $quantity
-    ];
-    $products[] = $product;
-
-    $choix = strtolower(readline(" voulez vous continuer  oui/non "));
-} while ($choix === "oui");
-
-$categorie  =   [
-    "code" => $code,
-    "name" => $name,
-    "products" =>  $products
-];
-
-$categories[] = $categorie;
-
-var_dump($categorie);
+    }
+    return false;
+}
