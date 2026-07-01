@@ -92,4 +92,37 @@ function showCategoriesWithEmptyProducts(array $categories): void
     var_dump($categoriesWithEmptyProducts);
 }
 
-showCategoriesWithEmptyProducts($categories);
+function storeCategoryWithEmptyProducts(array &$categories): void
+{
+
+    do {
+        $code = readRequiredString("Entrez le code: ");
+        if (checkCodeExists($categories, $code)) {
+            echo "Cette categorie existe deja\n";
+            continue;
+        }
+        break;
+    } while (true);
+
+    do {
+        $name = readRequiredString("Entrez le name: ");
+        if (checkNameExists($categories, $name)) {
+            echo "Cette categorie existe deja\n";
+            continue;
+        }
+        break;
+    } while (true);
+
+    $categorie = [
+        "code" => $code,
+        "name" => $name,
+        "products" => []
+    ];
+
+    $categories[] = $categorie;
+
+    var_dump($categories);
+}
+
+// showCategoriesWithEmptyProducts($categories);
+storeCategoryWithEmptyProducts($categories);
