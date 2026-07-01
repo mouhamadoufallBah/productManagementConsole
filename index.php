@@ -234,5 +234,5 @@ function storeCategoryWithProducts(array &$categories): void
 // showCategoriesWithEmptyProducts($categories);
 // storeCategoryWithEmptyProducts($categories);
 // storeProductInExistingCategory($categories);
-
+//try to merge in procedural after revert
 storeCategoryWithProducts($categories);
