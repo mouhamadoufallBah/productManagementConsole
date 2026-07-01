@@ -234,4 +234,5 @@ function storeCategoryWithProducts(array &$categories): void
 // showCategoriesWithEmptyProducts($categories);
 // storeCategoryWithEmptyProducts($categories);
 // storeProductInExistingCategory($categories);
+
 storeCategoryWithProducts($categories);
