@@ -15,7 +15,8 @@ $categories = [
     ]
 ];
 
-function readRequiredString(string $smsSaisie): string {
+function readRequiredString(string $smsSaisie): string
+{
     do {
         $value = trim(readline($smsSaisie));
         if (strlen($value) === 0) {
@@ -26,7 +27,8 @@ function readRequiredString(string $smsSaisie): string {
     } while (true);
 }
 
-function readPositiveInteger(string $smsSaisie): int {
+function readPositiveInteger(string $smsSaisie): int
+{
     do {
         $value = readline($smsSaisie);
         if (!ctype_digit($value)) {
@@ -37,7 +39,8 @@ function readPositiveInteger(string $smsSaisie): int {
     } while (true);
 }
 
-function checkCodeExists(array $categories, string $code): bool {
+function checkCodeExists(array $categories, string $code): bool
+{
     for ($i = 0; $i < count($categories); $i++) {
         if ($categories[$i]["code"] === strtolower($code)) {
             return true;
@@ -46,7 +49,8 @@ function checkCodeExists(array $categories, string $code): bool {
     return false;
 }
 
-function checkNameExists(array $categories, string $name): bool {
+function checkNameExists(array $categories, string $name): bool
+{
     for ($i = 0; $i < count($categories); $i++) {
         if ($categories[$i]["name"] === strtolower($name)) {
             return true;
@@ -55,7 +59,8 @@ function checkNameExists(array $categories, string $name): bool {
     return false;
 }
 
-function checkRefExistsGlobal(array $categories, string $ref): bool {
+function checkRefExistsGlobal(array $categories, string $ref): bool
+{
     foreach ($categories as $cat) {
         foreach ($cat["products"] as $prod) {
             if ($prod["ref"] === strtolower($ref)) {
@@ -66,7 +71,8 @@ function checkRefExistsGlobal(array $categories, string $ref): bool {
     return false;
 }
 
-function checkRefExistsSession(array $products, string $ref): bool {
+function checkRefExistsSession(array $products, string $ref): bool
+{
     foreach ($products as $prod) {
         if ($prod["ref"] === strtolower($ref)) {
             return true;
@@ -74,3 +80,16 @@ function checkRefExistsSession(array $products, string $ref): bool {
     }
     return false;
 }
+
+function showCategoriesWithEmptyProducts(array $categories): void
+{
+    $categoriesWithEmptyProducts = [];
+    for ($i = 0; $i < count($categories); $i++) {
+        if (empty($categories[$i]["products"])) {
+            $categoriesWithEmptyProducts[] = $categories[$i];
+        }
+    }
+    var_dump($categoriesWithEmptyProducts);
+}
+
+showCategoriesWithEmptyProducts($categories);
